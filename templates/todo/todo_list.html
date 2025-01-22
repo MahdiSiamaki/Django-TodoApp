@@ -1,16 +1,24 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Todo List</h1>
-  <ul>
-    {% for todo in object_list %}
-      <li>
-        <a href="{% url 'todo:todo_detail' todo.pk %}">{{ todo.title }}</a>
-        {% if todo.done %}
-          <span>(Done)</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-  </ul>
-  <a href="{% url 'todo:todo_create' %}">Create new todo</a>
+  <div class="container mt-4">
+    <h1 class="text-center">Todo List</h1>
+    <ul class="list-group">
+      {% for todo in object_list %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <a href="{% url 'todo:todo_detail' todo.pk %}">{{ todo.title }}</a>
+          {% if todo.done %}
+            <span class="badge badge-success"><i class="fas fa-check-circle"></i> Done</span>
+          {% else %}
+            <span class="badge badge-warning"><i class="fas fa-hourglass-half"></i> Not done</span>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="text-center mt-4">
+      <a href="{% url 'todo:todo_create' %}" class="btn btn-primary">
+        <i class="fas fa-plus-circle"></i> Create new todo
+      </a>
+    </div>
+  </div>
 {% endblock %}

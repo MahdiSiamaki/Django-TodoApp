@@ -1,11 +1,27 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>{{ todo.title }}</h1>
-  <p>{{ todo.description }}</p>
-  <p>Due date: {{ todo.due_date }}</p>
-  <p>Status: {% if todo.done %}Done{% else %}Not done{% endif %}</p>
-  <a href="{% url 'todo:todo_update' todo.pk %}">Edit</a>
-  <a href="{% url 'todo:todo_delete' todo.pk %}">Delete</a>
-  <a href="{% url 'todo:todo_list' %}">Back to list</a>
+  <div class="container mt-4">
+    <h1 class="text-center">{{ todo.title }}</h1>
+    <p>{{ todo.description }}</p>
+    <p>Due date: {{ todo.due_date }}</p>
+    <p>Status:
+      {% if todo.done %}
+        <span class="badge badge-success"><i class="fas fa-check-circle"></i> Done</span>
+      {% else %}
+        <span class="badge badge-warning"><i class="fas fa-hourglass-half"></i> Not done</span>
+      {% endif %}
+    </p>
+    <div class="text-center mt-4">
+      <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-primary">
+        <i class="fas fa-edit"></i> Edit
+      </a>
+      <a href="{% url 'todo:todo_delete' todo.pk %}" class="btn btn-danger">
+        <i class="fas fa-trash-alt"></i> Delete
+      </a>
+      <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Back to list
+      </a>
+    </div>
+  </div>
 {% endblock %}

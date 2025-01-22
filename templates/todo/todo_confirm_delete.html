@@ -1,11 +1,17 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <h1>Confirm Delete</h1>
-  <p>Are you sure you want to delete "{{ todo.title }}"?</p>
-  <form method="post">
-    {% csrf_token %}
-    <button type="submit">Yes, delete</button>
-    <a href="{% url 'todo:todo_list' %}">Cancel</a>
-  </form>
+  <div class="container mt-4">
+    <h1 class="text-center">Confirm Delete</h1>
+    <p class="text-center">Are you sure you want to delete "{{ todo.title }}"?</p>
+    <form method="post" class="text-center">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">
+        <i class="fas fa-trash-alt"></i> Yes, delete
+      </button>
+      <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary">
+        <i class="fas fa-times-circle"></i> Cancel
+      </a>
+    </form>
+  </div>
 {% endblock %}
