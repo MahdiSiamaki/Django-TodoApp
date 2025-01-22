@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Todo List</h1>
+  <ul>
+    {% for todo in object_list %}
+      <li>
+        <a href="{% url 'todo:todo_detail' todo.pk %}">{{ todo.title }}</a>
+        {% if todo.done %}
+          <span>(Done)</span>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <a href="{% url 'todo:todo_create' %}">Create new todo</a>
+{% endblock %}
