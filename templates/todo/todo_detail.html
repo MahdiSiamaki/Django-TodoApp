@@ -1,27 +1,59 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-  <div class="container mt-4">
-    <h1 class="text-center">{{ todo.title }}</h1>
-    <p>{{ todo.description }}</p>
-    <p>Due date: {{ todo.due_date }}</p>
-    <p>Status:
-      {% if todo.done %}
-        <span class="badge badge-success"><i class="fas fa-check-circle"></i> Done</span>
-      {% else %}
-        <span class="badge badge-warning"><i class="fas fa-hourglass-half"></i> Not done</span>
-      {% endif %}
-    </p>
-    <div class="text-center mt-4">
-      <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-primary">
-        <i class="fas fa-edit"></i> Edit
-      </a>
-      <a href="{% url 'todo:todo_delete' todo.pk %}" class="btn btn-danger">
-        <i class="fas fa-trash-alt"></i> Delete
-      </a>
-      <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary">
-        <i class="fas fa-arrow-left"></i> Back to list
-      </a>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h1 class="text-center mb-0">
+        <i class="fas fa-tasks"></i> {{ todo.title }}
+      </h1>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12 mb-4">
+          <div class="p-3 bg-light rounded">
+            <h5 class="mb-3">
+              <i class="fas fa-align-left text-primary"></i> Description
+            </h5>
+            <p class="lead mb-0">{{ todo.description }}</p>
+          </div>
+        </div>
+        
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-calendar-alt text-primary fa-2x mr-3"></i>
+            <div>
+              <h5 class="mb-0">Due Date</h5>
+              <p class="mb-0">{{ todo.due_date|date:"F j, Y" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="d-flex align-items-center mb-3">
+            <i class="fas fa-check-circle text-primary fa-2x mr-3"></i>
+            <div>
+              <h5 class="mb-3">Status</h5>
+              <span class="todo-status {% if todo.done %}todo-complete{% else %}todo-pending{% endif %}">
+                {{ todo.done|yesno:"Completed,Pending" }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 text-center mt-4">
+          <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-primary btn-lg">
+            <i class="fas fa-edit"></i> Edit
+          </a>
+          <a href="{% url 'todo:todo_delete' todo.pk %}" class="btn btn-danger btn-lg ml-2">
+            <i class="fas fa-trash-alt"></i> Delete
+          </a>
+          <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary btn-lg ml-2">
+            <i class="fas fa-arrow-left"></i> Back to List
+          </a>
+        </div>
+      </div>
     </div>
   </div>
+</div>
 {% endblock %}

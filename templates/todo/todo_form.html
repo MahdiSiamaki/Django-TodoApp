@@ -1,11 +1,78 @@
 {% extends "base_generic.html" %}
+{% load form_tags %}
 
 {% block content %}
-  <h1>{% if todo %}Edit Todo{% else %}Create Todo{% endif %}</h1>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% if todo %}Update{% else %}Create{% endif %}</button>
-  </form>
-  <a href="{% url 'todo:todo_list' %}">Back to list</a>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h1 class="text-center mb-0">
+        <i class="fas {% if todo %}fa-edit{% else %}fa-plus-circle{% endif %}"></i>
+        {% if todo %}Edit Todo{% else %}Create Todo{% endif %}
+      </h1>
+    </div>
+    
+    <div class="card-body">
+      <form id="todoForm" method="post" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <div class="form-group">
+          <label for="{{ form.title.id_for_label }}" class="h5">
+            <i class="fas fa-heading text-primary"></i> Title
+          </label>
+          <input type="text" name="{{ form.title.name }}" 
+                 class="form-control form-control-lg" 
+                 id="{{ form.title.id_for_label }}"
+                 value="{{ form.title.value|default:'' }}"
+                 required>
+          <div class="invalid-feedback">Please enter a title</div>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.description.id_for_label }}" class="h5">
+            <i class="fas fa-align-left text-primary"></i> Description
+          </label>
+          <textarea name="{{ form.description.name }}" 
+                    class="form-control"
+                    id="{{ form.description.id_for_label }}" 
+                    rows="4">{{ form.description.value|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.due_date.id_for_label }}" class="h5">
+            <i class="fas fa-calendar-alt text-primary"></i> Due Date
+          </label>
+          <input type="date" name="{{ form.due_date.name }}"
+                 class="form-control"
+                 id="{{ form.due_date.id_for_label }}"
+                 value="{{ form.due_date.value|date:'Y-m-d'|default:'' }}"
+                 required>
+          <div class="invalid-feedback">Please select a due date</div>
+        </div>
+
+        <div class="form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" name="{{ form.done.name }}"
+                   class="custom-control-input"
+                   id="{{ form.done.id_for_label }}"
+                   {% if form.done.value %}checked{% endif %}>
+            <label class="custom-control-label h5" for="{{ form.done.id_for_label }}">
+              <i class="fas fa-check-circle text-primary"></i> Mark as completed
+            </label>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="fas {% if todo %}fa-save{% else %}fa-plus-circle{% endif %}"></i>
+            {% if todo %}Save Changes{% else %}Create Todo{% endif %}
+          </button>
+          <a href="{% url 'todo:todo_list' %}" class="btn btn-secondary btn-lg ml-2">
+            <i class="fas fa-times-circle"></i> Cancel
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 {% endblock %}

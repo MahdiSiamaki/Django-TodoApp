@@ -1,0 +1,32 @@
+.card {
+    border-radius: 10px;
+}
+
+.card-header {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
+
+.mr-3 {
+    margin-right: 1rem !important;
+}
+
+.todo-status {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+}
+
+.todo-complete {
+    background-color: #28a745;
+    color: white;
+}
+
+.todo-pending {
+    background-color: #ffc107;
+    color: black;
+}
