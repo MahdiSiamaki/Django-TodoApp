@@ -61,6 +61,46 @@ python manage.py runserver
 4. Navigate through the paginated todo list using the pagination controls.
 5. Reset your password using the password reset functionality if needed.
 
+## Technologies Used
+
+- Django
+- SQLite
+- HTML/CSS
+- JavaScript
+- Bootstrap
+
+## Project Structure
+
+- `accounts/`: Contains user authentication-related files (models, views, forms, etc.)
+- `core/`: Contains project-wide settings and configurations
+- `todo/`: Contains todo-related files (models, views, forms, etc.)
+- `templates/`: Contains HTML templates for the project
+- `static/`: Contains static files (CSS, JavaScript, images, etc.)
+- `manage.py`: Django's command-line utility for administrative tasks
+
+## Testing
+
+To run the tests, use the following command:
+
+```bash
+python manage.py test
+```
+
+## Deployment
+
+To deploy the application to a production environment, follow these steps:
+
+1. Set the `DEBUG` setting to `False` in `core/settings.py`.
+2. Configure the `ALLOWED_HOSTS` setting with your domain name or IP address.
+3. Set up a production-ready database (e.g., PostgreSQL) and update the `DATABASES` setting in `core/settings.py`.
+4. Collect static files using the following command:
+
+```bash
+python manage.py collectstatic
+```
+
+5. Configure a web server (e.g., Nginx) and a WSGI server (e.g., Gunicorn) to serve the application.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or improvements.
