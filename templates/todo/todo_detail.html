@@ -9,39 +9,103 @@
       </h1>
     </div>
     <div class="card-body">
-      <div class="row">
-        <div class="col-md-12 mb-4">
-          <div class="p-3 bg-light rounded">
-            <h5 class="mb-3">
+      <!-- Description Section -->
+      <div class="row mb-4">
+        <div class="col-12">
+          <div class="p-4 bg-light rounded shadow-sm">
+            <h4 class="mb-3">
               <i class="fas fa-align-left text-primary"></i> Description
-            </h5>
-            <p class="lead mb-0">{{ todo.description }}</p>
+            </h4>
+            <p class="lead mb-0">{{ todo.description|default:"No description provided" }}</p>
           </div>
         </div>
-        
-        <div class="col-md-6">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fas fa-calendar-alt text-primary fa-2x mr-3"></i>
-            <div>
-              <h5 class="mb-0">Due Date</h5>
-              <p class="mb-0">{{ todo.due_date|date:"F j, Y" }}</p>
+      </div>
+      
+      <!-- Info Cards Row -->
+      <div class="row mb-4">
+        <!-- Due Date Card -->
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-info text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-calendar-alt"></i> Due Date
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="h4 mb-0">{{ todo.due_date|date:"F j, Y"|default:"No due date set" }}</p>
+              <small class="text-muted">
+                {% if todo.due_date %}
+                  {% now "Y-m-d" as today %}
+                  {% if todo.due_date|date:"Y-m-d" < today %}
+                    <span class="text-danger">Overdue</span>
+                  {% elif todo.due_date|date:"Y-m-d" == today %}
+                    <span class="text-warning">Due today</span>
+                  {% else %}
+                    Due in {{ todo.due_date|timeuntil }}
+                  {% endif %}
+                {% endif %}
+              </small>
             </div>
           </div>
         </div>
 
-        <div class="col-md-6">
-          <div class="d-flex align-items-center mb-3">
-            <i class="fas fa-check-circle text-primary fa-2x mr-3"></i>
-            <div>
-              <h5 class="mb-3">Status</h5>
-              <span class="todo-status {% if todo.done %}todo-complete{% else %}todo-pending{% endif %}">
-                {{ todo.done|yesno:"Completed,Pending" }}
-              </span>
+        <!-- Status Card -->
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header {% if todo.done %}bg-success{% else %}bg-warning{% endif %} text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-check-circle"></i> Status
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="h4 mb-1">
+                <span class="todo-status {% if todo.done %}todo-complete{% else %}todo-pending{% endif %}">
+                  {{ todo.done|yesno:"Completed,Pending" }}
+                </span>
+              </p>
+              {% if todo.done %}
+                <small class="text-success">Task completed</small>
+              {% else %}
+                <small class="text-warning">Task in progress</small>
+              {% endif %}
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="col-md-12 text-center mt-4">
+      <!-- Additional Info Row -->
+      <div class="row mb-4">
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-clock"></i> Created
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="mb-0">{{ todo.created_at|date:"F j, Y, g:i a" }}</p>
+              <small class="text-muted">Created {{ todo.created_at|timesince }} ago</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <div class="card h-100 shadow-sm">
+            <div class="card-header bg-secondary text-white">
+              <h5 class="mb-0">
+                <i class="fas fa-edit"></i> Last Updated
+              </h5>
+            </div>
+            <div class="card-body">
+              <p class="mb-0">{{ todo.updated_at|date:"F j, Y, g:i a" }}</p>
+              <small class="text-muted">Updated {{ todo.updated_at|timesince }} ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="row">
+        <div class="col-12 text-center">
           <a href="{% url 'todo:todo_update' todo.pk %}" class="btn btn-primary btn-lg">
             <i class="fas fa-edit"></i> Edit
           </a>
@@ -57,3 +121,40 @@
   </div>
 </div>
 {% endblock %}
+
+<style>
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+}
+
+.card.shadow-sm {
+    transition: transform 0.2s ease-in-out;
+}
+
+.card.shadow-sm:hover {
+    transform: translateY(-2px);
+}
+
+.todo-status {
+    font-size: 1.1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 15px;
+    display: inline-block;
+}
+
+.todo-complete {
+    background-color: #28a745;
+    color: white;
+}
+
+.todo-pending {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+.lead {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+</style>
