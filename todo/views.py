@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.db.models import Q
 
 from todo.models import Todo
 
@@ -14,12 +15,18 @@ class TodoListView(LoginRequiredMixin, ListView):
     template_name = 'todo/todo_list.html'
     ordering = ['-created_at']
     context_object_name = 'todos'
-
-    # paginate_by = 10
+    paginate_by = 10
 
     def get_queryset(self):
         # Filter todos to show only those belonging to the current user
-        return Todo.objects.filter(user=self.request.user).order_by('-created_at')
+        queryset = Todo.objects.filter(user=self.request.user).order_by('-created_at')
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(
+                Q(title__icontains=query) |
+                Q(description__icontains=query)
+            )
+        return queryset
 
     login_url = 'accounts:login'  # Redirect to login if user is not authenticated
     

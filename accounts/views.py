@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login, authenticate
 from django.shortcuts import redirect
@@ -63,3 +63,30 @@ class UserSignupView(CreateView):
         if self.request.user.is_authenticated:
             return redirect('todo:todo_list')
         return super(UserSignupView, self).get(*args, **kwargs)
+
+class PasswordResetView(PasswordResetView):
+    """
+    View for initiating password reset.
+    """
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    success_url = reverse_lazy('accounts:password_reset_done')
+
+class PasswordResetDoneView(PasswordResetDoneView):
+    """
+    View for indicating that password reset email has been sent.
+    """
+    template_name = 'accounts/password_reset_done.html'
+
+class PasswordResetConfirmView(PasswordResetConfirmView):
+    """
+    View for confirming new password.
+    """
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('accounts:password_reset_complete')
+
+class PasswordResetCompleteView(PasswordResetCompleteView):
+    """
+    View for indicating that password reset has been completed.
+    """
+    template_name = 'accounts/password_reset_complete.html'
