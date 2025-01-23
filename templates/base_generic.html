@@ -12,37 +12,37 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'todo:todo_list' %}">Todo App</a>
+            <a class="navbar-brand text-dark" href="{% url 'todo:todo_list' %}">Todo App</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'todo:todo_list' %}">Home</a>
+                        <a class="nav-link text-dark" href="{% url 'todo:todo_list' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'todo:todo_create' %}">Create Todo</a>
+                        <a class="nav-link text-dark" href="{% url 'todo:todo_create' %}">Create Todo</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <span class="nav-link">Welcome, {{ user.username }}</span>
+                            <span class="nav-link text-dark">Welcome, {{ user.username }}</span>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:logout' %}">
+                            <a class="nav-link text-dark" href="{% url 'accounts:logout' %}">
                                 <i class="fas fa-sign-out-alt"></i> Logout
                             </a>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:login' %}">
+                            <a class="nav-link text-dark" href="{% url 'accounts:login' %}">
                                 <i class="fas fa-sign-in-alt"></i> Login
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'accounts:signup' %}">
+                            <a class="nav-link text-dark" href="{% url 'accounts:signup' %}">
                                 <i class="fas fa-user-plus"></i> Sign Up
                             </a>
                         </li>

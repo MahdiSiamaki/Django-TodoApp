@@ -44,6 +44,14 @@
     color: #d4d4d4 !important;
 }
 
+.navbar .nav-link {
+    color: #343a40 !important;
+}
+
+.navbar .navbar-brand {
+    color: #343a40 !important;
+}
+
 .footer {
     background-color: #343a40;
     color: #ffffff;
