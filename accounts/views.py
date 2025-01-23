@@ -8,6 +8,9 @@ from django.views.generic import CreateView
 from django.contrib import messages
 
 class UserLoginView(LoginView):
+    """
+    Login view for users to authenticate.
+    """
     template_name = 'accounts/login.html'
     fields = "username","password"
     success_url = reverse_lazy('todo:todo_list')
@@ -27,6 +30,9 @@ class UserLoginView(LoginView):
 
 
 class UserLogoutView(LogoutView):
+    """
+    Logout view for users to logout.
+    """
     next_page = reverse_lazy('accounts:login')
     
     def get_next_page(self):
@@ -39,6 +45,9 @@ class UserLogoutView(LogoutView):
         return super().dispatch(request, *args, **kwargs)
 
 class UserSignupView(CreateView):
+    """
+    Signup view for users to register
+    """
     template_name = 'accounts/signup.html'
     form_class = UserCreationForm
     redirect_authenticated_user = True
