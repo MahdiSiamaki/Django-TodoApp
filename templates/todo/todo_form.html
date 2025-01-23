@@ -49,14 +49,18 @@
           <div class="invalid-feedback">Please select a due date</div>
         </div>
 
-        <div class="form-group">
-          <div class="custom-control custom-checkbox">
+        <div class="form-group mt-4">
+          <div class="custom-control custom-switch">
             <input type="checkbox" name="{{ form.done.name }}"
                    class="custom-control-input"
                    id="{{ form.done.id_for_label }}"
                    {% if form.done.value %}checked{% endif %}>
             <label class="custom-control-label h5" for="{{ form.done.id_for_label }}">
-              <i class="fas fa-check-circle text-primary"></i> Mark as completed
+              <i class="fas fa-check-circle text-success"></i> 
+              Mark as completed
+              <small class="text-muted ml-2">
+                (Toggle to change task status)
+              </small>
             </label>
           </div>
         </div>
