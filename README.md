@@ -78,6 +78,26 @@ python manage.py runserver
 - `static/`: Contains static files (CSS, JavaScript, images, etc.)
 - `manage.py`: Django's command-line utility for administrative tasks
 
+## API Endpoints
+
+### User Authentication
+
+- `POST /accounts/login/`: Log in a user
+- `POST /accounts/logout/`: Log out a user
+- `POST /accounts/signup/`: Sign up a new user
+- `POST /accounts/password_reset/`: Request a password reset
+- `POST /accounts/password_reset/done/`: Confirm password reset request
+- `POST /accounts/reset/<uidb64>/<token>/`: Confirm new password
+- `POST /accounts/reset/done/`: Complete password reset
+
+### Todo Operations
+
+- `GET /api/v1/todos/`: List all todos for the authenticated user
+- `POST /api/v1/todos/`: Create a new todo
+- `GET /api/v1/todos/<id>/`: Retrieve a specific todo
+- `PUT /api/v1/todos/<id>/`: Update a specific todo
+- `DELETE /api/v1/todos/<id>/`: Delete a specific todo
+
 ## Testing
 
 To run the tests, use the following command:
