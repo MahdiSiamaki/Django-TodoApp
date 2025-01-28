@@ -9,7 +9,7 @@ urlpatterns = [
     path('create/', TodoCreateView.as_view(), name='todo_create'),
     path('<int:pk>/update/', TodoUpdateView.as_view(), name='todo_update'),
     path('<int:pk>/delete/', TodoDeleteView.as_view(), name='todo_delete'),
-    path('api-v1/', include('todo.api.v1.urls', namespace='api-v1')),
+    path('api/v1/', include('todo.api.v1.urls', namespace='api-v1')),
 ]
 
 
