@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'todo.templatetags',
     'rest_framework',
     'django_filters',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
