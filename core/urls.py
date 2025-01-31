@@ -40,7 +40,7 @@ urlpatterns = [
     path('', include('todo.urls')),
     path('accounts/', include('accounts.urls')),
     path('api-auth', include('rest_framework.urls')),
-    path('swagger/output.json/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('swagger/output.json', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 
