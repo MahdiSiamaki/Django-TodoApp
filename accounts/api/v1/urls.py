@@ -1,7 +1,9 @@
 from django.urls import include, path
 
+from accounts.api.v1 import views
+
 app_name = 'api-v1'
 
 urlpatterns = [
-    path('todo/', include('todo.api.v1.urls', namespace='todo')),
+    path('register/', views.RegisterView.as_view(), name='register'),
 ]

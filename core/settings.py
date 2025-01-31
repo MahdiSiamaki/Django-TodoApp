@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'todo.templatetags',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
     'drf_yasg'
 ]
@@ -155,3 +156,17 @@ INTERNAL_IPS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+# rest_framework settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
+}
