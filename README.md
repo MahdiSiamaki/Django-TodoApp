@@ -53,6 +53,22 @@ python manage.py runserver
 
 7. Open your web browser and navigate to `http://127.0.0.1:8000` to access the application.
 
+## Docker Setup Instructions
+
+1. Build the Docker image:
+
+```bash
+docker-compose build
+```
+
+2. Run the Docker containers:
+
+```bash
+docker-compose up
+```
+
+3. Open your web browser and navigate to `http://127.0.0.1:8000` to access the application.
+
 ## Usage
 
 1. Register a new user account or log in with an existing account.
