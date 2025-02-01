@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.contrib.auth.models import User
+from rest_framework.authtoken.models import Token
 
 class UserAuthenticationTests(TestCase):
     def setUp(self):
@@ -8,7 +9,10 @@ class UserAuthenticationTests(TestCase):
         self.login_url = reverse('accounts:login')
         self.logout_url = reverse('accounts:logout')
         self.signup_url = reverse('accounts:signup')
+        self.token_login_url = reverse('api-v1:login')
+        self.token_logout_url = reverse('api-v1:logout')
         self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.token = Token.objects.create(user=self.user)
 
     def test_login_view(self):
         response = self.client.get(self.login_url)
@@ -28,7 +32,6 @@ class UserAuthenticationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/signup.html')
 
-
     def test_invalid_login(self):
         response = self.client.post(self.login_url, {'username': 'invaliduser', 'password': 'invalidpassword'})
         self.assertEqual(response.status_code, 200)
@@ -44,3 +47,14 @@ class UserAuthenticationTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'accounts/signup.html')
         self.assertContains(response, 'The two password fields didn’t match.')
+
+    def test_token_login(self):
+        response = self.client.post(self.token_login_url, {'username': 'testuser', 'password': 'testpassword'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('token', response.data)
+
+    def test_token_logout(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        response = self.client.post(self.token_logout_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertFalse(Token.objects.filter(user=self.user).exists())
