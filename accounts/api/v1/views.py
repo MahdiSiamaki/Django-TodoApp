@@ -6,7 +6,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from django.contrib.auth import logout
-from accounts.api.v1.serializers import RegisterSerializer, UserSerializer
+from accounts.api.v1.serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer
 
 
 class RegisterView(generics.GenericAPIView):
@@ -39,7 +39,6 @@ class LoginView(ObtainAuthToken):
         })
 
 
-
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -47,3 +46,26 @@ class LogoutView(APIView):
         request.user.auth_token.delete()
         logout(request)
         return Response({"message": "User Logged Out Successfully."})
+
+
+class ChangePasswordView(generics.UpdateAPIView):
+    serializer_class = ChangePasswordSerializer
+    model = Token
+    permission_classes = (IsAuthenticated,)
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def update(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        serializer = self.get_serializer(data=request.data)
+
+        if serializer.is_valid():
+            if not self.object.check_password(serializer.data.get("old_password")):
+                return Response({"old_password": ["Wrong password."]}, status=status.HTTP_400_BAD_REQUEST)
+
+            self.object.set_password(serializer.data.get("new_password"))
+            self.object.save()
+            return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

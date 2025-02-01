@@ -11,6 +11,7 @@ class UserAuthenticationTests(TestCase):
         self.signup_url = reverse('accounts:signup')
         self.token_login_url = reverse('api-v1:login')
         self.token_logout_url = reverse('api-v1:logout')
+        self.change_password_url = reverse('api-v1:change-password')
         self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.token = Token.objects.create(user=self.user)
 
@@ -58,3 +59,15 @@ class UserAuthenticationTests(TestCase):
         response = self.client.post(self.token_logout_url)
         self.assertEqual(response.status_code, 200)
         self.assertFalse(Token.objects.filter(user=self.user).exists())
+
+    def test_change_password(self):
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        response = self.client.post(self.change_password_url, {
+            'old_password': 'testpassword',
+            'new_password': 'newtestpassword'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Password updated successfully.')
+
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('newtestpassword'))
