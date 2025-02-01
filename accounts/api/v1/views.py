@@ -50,13 +50,12 @@ class LogoutView(APIView):
 
 class ChangePasswordView(generics.UpdateAPIView):
     serializer_class = ChangePasswordSerializer
-    model = Token
-    permission_classes = (IsAuthenticated,)
+    permission_classes = [IsAuthenticated]
 
     def get_object(self, queryset=None):
         return self.request.user
 
-    def update(self, request, *args, **kwargs):
+    def put(self, request, *args, **kwargs):
         self.object = self.get_object()
         serializer = self.get_serializer(data=request.data)
 

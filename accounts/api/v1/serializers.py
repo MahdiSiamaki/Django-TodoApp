@@ -42,7 +42,14 @@ class RegisterSerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+    new_password1 = serializers.CharField(required=True)
 
-    def validate_new_password(self, value):
-        validate_password(value)
-        return value
+    def validate(self, data):
+        if data['new_password'] != data['new_password1']:
+            raise serializers.ValidationError({'new_password': 'Passwords must match.'})
+
+        try:
+            validate_password(data['new_password'])
+        except exceptions.ValidationError as e:
+            raise serializers.ValidationError({'new_password': list(e.messages)})
+        return data
