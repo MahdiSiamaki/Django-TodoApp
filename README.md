@@ -3,6 +3,9 @@
 ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 ![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen)
+![Python](https://img.shields.io/badge/python-3.12-blue)
+![Django](https://img.shields.io/badge/django-5.1.5-blue)
+![Docker](https://img.shields.io/badge/docker-available-blue)
 
 This is a simple Django-based Todo application that allows users to create, update, and delete tasks. The application also includes user authentication, password reset functionality, pagination, and search functionality.
 
