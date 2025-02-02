@@ -18,26 +18,6 @@ This is a simple Django-based Todo application that allows users to create, upda
 - Search functionality for todos
 - Improved UI/UX design
 
-### Detailed Features
-
-1. **User Authentication**: Secure login, logout, and signup functionalities.
-   ![User Authentication](screenshots/authentication.png)
-
-2. **Password Reset**: Users can reset their passwords via email.
-   ![Password Reset](screenshots/password_reset.png)
-
-3. **Task Management**: Create, update, and delete tasks with ease.
-   ![Task Management](screenshots/task_management.png)
-
-4. **Pagination**: Navigate through tasks with pagination controls.
-   ![Pagination](screenshots/pagination.png)
-
-5. **Search Functionality**: Filter tasks based on title or description.
-   ![Search Functionality](screenshots/search.png)
-
-6. **Responsive Design**: Optimized for both desktop and mobile devices.
-   ![Responsive Design](screenshots/responsive_design.png)
-
 ## Setup Instructions
 
 1. Clone the repository:
@@ -453,17 +433,6 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
-
-## Screenshots
-
-### Login Page
-![Login Page](screenshots/login.png)
-
-### Todo List
-![Todo List](screenshots/todo_list.png)
-
-### Create Todo
-![Create Todo](screenshots/create_todo.png)
 
 ## Application Workflow
 
