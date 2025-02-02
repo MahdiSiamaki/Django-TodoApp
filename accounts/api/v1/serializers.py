@@ -73,3 +73,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             msg = _('User account is disabled.')
             raise serializers.ValidationError(msg, code='authorization')
         return data
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+    def validate(self, data):
+        if not User.objects.filter(email=data['email']).exists():
+            raise serializers.ValidationError({'email': 'Email does not exist.'})
+        return data
