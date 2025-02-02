@@ -181,36 +181,7 @@ Django-TodoApp/
 
 ### User Authentication
 
-- `POST /accounts/login/`: Log in a user
-  - Example Request:
-    ```json
-    {
-      "username": "testuser",
-      "password": "testpassword"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "token": "your_token_here"
-    }
-    ```
-
-- `POST /accounts/logout/`: Log out a user
-  - Example Request:
-    ```json
-    {
-      "token": "your_token_here"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "message": "User Logged Out Successfully."
-    }
-    ```
-
-- `POST /accounts/signup/`: Sign up a new user
+- `POST /register/`: Register a new user
   - Example Request:
     ```json
     {
@@ -226,65 +197,7 @@ Django-TodoApp/
     }
     ```
 
-- `POST /accounts/password_reset/`: Request a password reset
-  - Example Request:
-    ```json
-    {
-      "email": "user@example.com"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "message": "Password reset email sent."
-    }
-    ```
-
-- `POST /accounts/password_reset/done/`: Confirm password reset request
-  - Example Request:
-    ```json
-    {
-      "uidb64": "your_uidb64_here",
-      "token": "your_token_here"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "message": "Password reset confirmed."
-    }
-    ```
-
-- `POST /accounts/reset/<uidb64>/<token>/`: Confirm new password
-  - Example Request:
-    ```json
-    {
-      "new_password1": "newpassword",
-      "new_password2": "newpassword"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "message": "Password has been reset."
-    }
-    ```
-
-- `POST /accounts/reset/done/`: Complete password reset
-  - Example Request:
-    ```json
-    {
-      "token": "your_token_here"
-    }
-    ```
-  - Example Response:
-    ```json
-    {
-      "message": "Password reset completed."
-    }
-    ```
-
-- `POST /api/v1/login/`: Token-based login
+- `POST /token/login/`: Token-based login
   - Example Request:
     ```json
     {
@@ -299,7 +212,7 @@ Django-TodoApp/
     }
     ```
 
-- `POST /api/v1/logout/`: Token-based logout
+- `POST /token/logout/`: Token-based logout
   - Example Request:
     ```json
     {
@@ -310,6 +223,102 @@ Django-TodoApp/
     ```json
     {
       "message": "User Logged Out Successfully."
+    }
+    ```
+
+- `POST /jwt/create/`: Create JWT token
+  - Example Request:
+    ```json
+    {
+      "username": "testuser",
+      "password": "testpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "refresh": "your_refresh_token_here",
+      "access": "your_access_token_here"
+    }
+    ```
+
+- `POST /jwt/refresh/`: Refresh JWT token
+  - Example Request:
+    ```json
+    {
+      "refresh": "your_refresh_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "access": "your_new_access_token_here"
+    }
+    ```
+
+- `POST /jwt/verify/`: Verify JWT token
+  - Example Request:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Token is valid."
+    }
+    ```
+
+- `POST /change-password/`: Change user password
+  - Example Request:
+    ```json
+    {
+      "old_password": "oldpassword",
+      "new_password": "newpassword",
+      "new_password1": "newpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Password updated successfully."
+    }
+    ```
+
+- `POST /test-email/`: Send test email
+  - Example Request:
+    ```json
+    {
+      "email": "user@example.com"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Email sent successfully."
+    }
+    ```
+
+- `GET /verify-email/<str:token>/`: Verify user email
+  - Example Response:
+    ```json
+    {
+      "message": "Email verified successfully."
+    }
+    ```
+
+- `POST /resend-verification-email/`: Resend verification email
+  - Example Request:
+    ```json
+    {
+      "email": "user@example.com"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Email sent successfully."
     }
     ```
 
