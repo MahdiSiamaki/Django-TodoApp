@@ -1,7 +1,9 @@
 from django.test import TestCase, Client
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from rest_framework.authtoken.models import Token
+
+User = get_user_model()
 
 class UserAuthenticationTests(TestCase):
     def setUp(self):
@@ -71,3 +73,14 @@ class UserAuthenticationTests(TestCase):
 
         self.user.refresh_from_db()
         self.assertTrue(self.user.check_password('newtestpassword'))
+
+    def test_is_verified_field(self):
+        self.assertFalse(self.user.is_verified)
+        superuser = User.objects.create_superuser(username='superuser', password='superpassword')
+        self.assertTrue(superuser.is_verified)
+
+    def test_login_view_with_unverified_user(self):
+        unverified_user = User.objects.create_user(username='unverifieduser', password='unverifiedpassword')
+        response = self.client.post(self.token_login_url, {'username': 'unverifieduser', 'password': 'unverifiedpassword'})
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, 'User account is disabled.')
