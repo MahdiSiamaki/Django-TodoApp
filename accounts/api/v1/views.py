@@ -1,3 +1,4 @@
+from django.core.mail import send_mail
 from rest_framework import generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -76,3 +77,15 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+
+class TestEmail(generics.GenericAPIView):
+    def get(self, request):
+        send_mail(
+            "Subject here",
+            "Here is the message.",
+            "from@example.com",
+            ["to@example.com"],
+            fail_silently=False,
+        )
+        return Response("Email sent", status=status.HTTP_200_OK)
