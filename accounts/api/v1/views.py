@@ -31,6 +31,8 @@ class LoginView(ObtainAuthToken):
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        if not user.is_verified:
+            return Response({"message": "User account is disabled."}, status=status.HTTP_400_BAD_REQUEST)
         token, created = Token.objects.get_or_create(user=user)
         return Response({
             'token': token.key,

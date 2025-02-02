@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
 class CustomUserAdmin(BaseUserAdmin):
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff']
+    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff', 'is_verified']
     list_filter = ['is_staff']
     search_fields = ['username', 'email', 'first_name', 'last_name']
     list_editable = ['is_staff']
