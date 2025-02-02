@@ -105,6 +105,8 @@ docker-compose up
 - `POST /accounts/password_reset/done/`: Confirm password reset request
 - `POST /accounts/reset/<uidb64>/<token>/`: Confirm new password
 - `POST /accounts/reset/done/`: Complete password reset
+- `POST /api/v1/login/`: Token-based login
+- `POST /api/v1/logout/`: Token-based logout
 
 ### Todo Operations
 

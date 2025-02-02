@@ -54,8 +54,10 @@ INSTALLED_APPS = [
     'accounts',
     'todo.templatetags',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
-    'drf_yasg'
+    'drf_yasg',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +157,30 @@ INTERNAL_IPS = [
 
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+# rest_framework settings
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+    ),
+    # 'DEFAULT_PERMISSION_CLASSES': (
+    #     'rest_framework.permissions.IsAuthenticated',
+    # )
+}
+
+AUTH_USER_MODEL = 'accounts.User'
+
+# email backend settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp4dev'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+EMAIL_HOST_USER = 'noreply@example.com'  # Add a default sender email
+EMAIL_HOST_PASSWORD = ''
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

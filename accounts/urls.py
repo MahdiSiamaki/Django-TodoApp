@@ -4,7 +4,7 @@ from .views import UserLoginView, UserLogoutView, UserSignupView, PasswordResetV
 app_name = 'accounts'
 
 urlpatterns = [
-    path('', include('django.contrib.auth.urls')),
+    # path('', include('django.contrib.auth.urls')),
     path('login/', UserLoginView.as_view(), name='login'),
     path('logout/', UserLogoutView.as_view(), name='logout'),
     path('signup/', UserSignupView.as_view(), name='signup'),
@@ -13,4 +13,6 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('reset/done/', PasswordResetCompleteView.as_view(), name='password_reset_complete'),
     path('api/v1/', include('accounts.api.v1.urls', namespace='api-v1')),
+    path('api/v2/', include('djoser.urls')),
+    path('api/v2/', include('djoser.urls.jwt')),
 ]

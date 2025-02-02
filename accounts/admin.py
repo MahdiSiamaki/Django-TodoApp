@@ -1,12 +1,15 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-from django.contrib.auth.models import User
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 
 class CustomUserAdmin(BaseUserAdmin):
-    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff']
+    list_display = ['username', 'email', 'first_name', 'last_name', 'is_staff', 'is_verified']
     list_filter = ['is_staff']
     search_fields = ['username', 'email', 'first_name', 'last_name']
-    list_editable = ['is_staff']
+    list_editable = ['is_staff', 'is_verified']
     list_per_page = 10
     list_max_show_all = 100
     ordering = ['username']
@@ -21,7 +24,7 @@ class CustomUserAdmin(BaseUserAdmin):
         queryset.update(is_staff=False)
     make_not_staff.short_description = 'Make selected users not staff'
 
-# Unregister the default User admin
-admin.site.unregister(User)
-# Register User model with custom admin
+
 admin.site.register(User, CustomUserAdmin)
+# admin.site.register(Todo, TodoAdmin)
+
