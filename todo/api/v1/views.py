@@ -7,13 +7,14 @@ from .permissions import IsOwnerOrReadOnly
 from .paginations import CustomPageNumberPagination
 from todo.models import Todo
 
+
 class TodoViewSet(viewsets.ModelViewSet):
     queryset = Todo.objects.all()
     serializer_class = TodoSerializer
-    filter_backends = [DjangoFilterBackend,OrderingFilter,SearchFilter]
-    filterset_fields = ['done']
-    search_fields = ['title', 'description']
-    ordering_fields= ['due_date', 'done']
+    filter_backends = [DjangoFilterBackend, OrderingFilter, SearchFilter]
+    filterset_fields = ["done"]
+    search_fields = ["title", "description"]
+    ordering_fields = ["due_date", "done"]
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
     pagination_class = CustomPageNumberPagination
 
