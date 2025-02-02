@@ -18,6 +18,26 @@ This is a simple Django-based Todo application that allows users to create, upda
 - Search functionality for todos
 - Improved UI/UX design
 
+### Detailed Features
+
+1. **User Authentication**: Secure login, logout, and signup functionalities.
+   ![User Authentication](screenshots/authentication.png)
+
+2. **Password Reset**: Users can reset their passwords via email.
+   ![Password Reset](screenshots/password_reset.png)
+
+3. **Task Management**: Create, update, and delete tasks with ease.
+   ![Task Management](screenshots/task_management.png)
+
+4. **Pagination**: Navigate through tasks with pagination controls.
+   ![Pagination](screenshots/pagination.png)
+
+5. **Search Functionality**: Filter tasks based on title or description.
+   ![Search Functionality](screenshots/search.png)
+
+6. **Responsive Design**: Optimized for both desktop and mobile devices.
+   ![Responsive Design](screenshots/responsive_design.png)
+
 ## Setup Instructions
 
 1. Clone the repository:
@@ -94,34 +114,314 @@ docker-compose up
 
 ## Project Structure
 
-- `accounts/`: Contains user authentication-related files (models, views, forms, etc.)
-- `core/`: Contains project-wide settings and configurations
-- `todo/`: Contains todo-related files (models, views, forms, etc.)
-- `templates/`: Contains HTML templates for the project
-- `static/`: Contains static files (CSS, JavaScript, images, etc.)
-- `manage.py`: Django's command-line utility for administrative tasks
+```plaintext
+Django-TodoApp/
+├── accounts/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── utils.py
+│   │   ├── v1/
+│   │   │   ├── __init__.py
+│   │   │   ├── serializers.py
+│   │   │   ├── urls.py
+│   │   │   ├── views.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+├── core/
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   ├── wsgi.py
+├── todo/
+│   ├── __init__.py
+│   ├── admin.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── v1/
+│   │   │   ├── __init__.py
+│   │   │   ├── paginations.py
+│   │   │   ├── permissions.py
+│   │   │   ├── serializers.py
+│   │   │   ├── urls.py
+│   │   │   ├── views.py
+│   ├── apps.py
+│   ├── migrations/
+│   ├── models.py
+│   ├── templatetags/
+│   ├── tests.py
+│   ├── urls.py
+│   ├── views.py
+├── templates/
+│   ├── accounts/
+│   │   ├── login.html
+│   │   ├── password_reset_complete.html
+│   │   ├── password_reset_confirm.html
+│   │   ├── password_reset_done.html
+│   │   ├── password_reset_email.html
+│   │   ├── password_reset.html
+│   │   ├── signup.html
+│   ├── base_generic.html
+│   ├── email/
+│   │   ├── base.tpl
+│   │   ├── verification.tpl
+│   │   ├── welcome.tpl
+│   ├── todo/
+│   │   ├── todo_confirm_delete.html
+│   │   ├── todo_detail.html
+│   │   ├── todo_form.html
+│   │   ├── todo_list.html
+├── static/
+│   ├── css/
+│   │   ├── styles.css
+├── manage.py
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── README.md
+├── LICENSE
+```
+
+### Detailed Explanations
+
+- **accounts/**: Contains user authentication-related files (models, views, forms, etc.)
+- **core/**: Contains project-wide settings and configurations
+- **todo/**: Contains todo-related files (models, views, forms, etc.)
+- **templates/**: Contains HTML templates for the project
+- **static/**: Contains static files (CSS, JavaScript, images, etc.)
+- **manage.py**: Django's command-line utility for administrative tasks
 
 ## API Endpoints
 
 ### User Authentication
 
 - `POST /accounts/login/`: Log in a user
+  - Example Request:
+    ```json
+    {
+      "username": "testuser",
+      "password": "testpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+
 - `POST /accounts/logout/`: Log out a user
+  - Example Request:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "User Logged Out Successfully."
+    }
+    ```
+
 - `POST /accounts/signup/`: Sign up a new user
+  - Example Request:
+    ```json
+    {
+      "username": "newuser",
+      "password1": "newpassword",
+      "password2": "newpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "User Created Successfully. Please check your email to verify your account."
+    }
+    ```
+
 - `POST /accounts/password_reset/`: Request a password reset
+  - Example Request:
+    ```json
+    {
+      "email": "user@example.com"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Password reset email sent."
+    }
+    ```
+
 - `POST /accounts/password_reset/done/`: Confirm password reset request
+  - Example Request:
+    ```json
+    {
+      "uidb64": "your_uidb64_here",
+      "token": "your_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Password reset confirmed."
+    }
+    ```
+
 - `POST /accounts/reset/<uidb64>/<token>/`: Confirm new password
+  - Example Request:
+    ```json
+    {
+      "new_password1": "newpassword",
+      "new_password2": "newpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Password has been reset."
+    }
+    ```
+
 - `POST /accounts/reset/done/`: Complete password reset
+  - Example Request:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "Password reset completed."
+    }
+    ```
+
 - `POST /api/v1/login/`: Token-based login
+  - Example Request:
+    ```json
+    {
+      "username": "testuser",
+      "password": "testpassword"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+
 - `POST /api/v1/logout/`: Token-based logout
+  - Example Request:
+    ```json
+    {
+      "token": "your_token_here"
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "message": "User Logged Out Successfully."
+    }
+    ```
 
 ### Todo Operations
 
 - `GET /api/v1/todos/`: List all todos for the authenticated user
+  - Example Response:
+    ```json
+    [
+      {
+        "id": 1,
+        "user": "testuser",
+        "title": "Sample Todo",
+        "description": "This is a sample todo.",
+        "due_date": "2023-10-01",
+        "done": "No",
+        "created_at": "2023-09-01T12:00:00Z",
+        "updated_at": "2023-09-01T12:00:00Z"
+      }
+    ]
+    ```
+
 - `POST /api/v1/todos/`: Create a new todo
+  - Example Request:
+    ```json
+    {
+      "title": "New Todo",
+      "description": "This is a new todo.",
+      "due_date": "2023-10-01",
+      "done": false
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "id": 2,
+      "user": "testuser",
+      "title": "New Todo",
+      "description": "This is a new todo.",
+      "due_date": "2023-10-01",
+      "done": "No",
+      "created_at": "2023-09-01T12:00:00Z",
+      "updated_at": "2023-09-01T12:00:00Z"
+    }
+    ```
+
 - `GET /api/v1/todos/<id>/`: Retrieve a specific todo
+  - Example Response:
+    ```json
+    {
+      "id": 1,
+      "user": "testuser",
+      "title": "Sample Todo",
+      "description": "This is a sample todo.",
+      "due_date": "2023-10-01",
+      "done": "No",
+      "created_at": "2023-09-01T12:00:00Z",
+      "updated_at": "2023-09-01T12:00:00Z"
+    }
+    ```
+
 - `PUT /api/v1/todos/<id>/`: Update a specific todo
+  - Example Request:
+    ```json
+    {
+      "title": "Updated Todo",
+      "description": "This is an updated todo.",
+      "due_date": "2023-10-01",
+      "done": true
+    }
+    ```
+  - Example Response:
+    ```json
+    {
+      "id": 1,
+      "user": "testuser",
+      "title": "Updated Todo",
+      "description": "This is an updated todo.",
+      "due_date": "2023-10-01",
+      "done": "Yes",
+      "created_at": "2023-09-01T12:00:00Z",
+      "updated_at": "2023-09-01T12:00:00Z"
+    }
+    ```
+
 - `DELETE /api/v1/todos/<id>/`: Delete a specific todo
+  - Example Response:
+    ```json
+    {
+      "message": "Todo deleted successfully."
+    }
+    ```
 
 ## Testing
 
