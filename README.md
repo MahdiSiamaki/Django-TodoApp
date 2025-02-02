@@ -1,5 +1,9 @@
 # Django Todo App
 
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
+![Code Quality](https://img.shields.io/badge/code%20quality-A-brightgreen)
+
 This is a simple Django-based Todo application that allows users to create, update, and delete tasks. The application also includes user authentication, password reset functionality, pagination, and search functionality.
 
 ## Features
@@ -146,3 +150,28 @@ Contributions are welcome! Please feel free to submit a pull request or open an 
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
+
+## Screenshots
+
+### Login Page
+![Login Page](screenshots/login.png)
+
+### Todo List
+![Todo List](screenshots/todo_list.png)
+
+### Create Todo
+![Create Todo](screenshots/create_todo.png)
+
+## Application Workflow
+
+```mermaid
+graph TD;
+    A[User] --> B[Login/Signup]
+    B --> C[Todo List]
+    C --> D[Create Todo]
+    C --> E[Update Todo]
+    C --> F[Delete Todo]
+    D --> C
+    E --> C
+    F --> C
+```
