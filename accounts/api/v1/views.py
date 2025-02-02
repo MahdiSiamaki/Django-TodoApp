@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+from mail_templated import send_mail
 from rest_framework import generics, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -10,6 +10,7 @@ from django.contrib.auth import logout
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from accounts.api.v1.serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer, CustomTokenObtainPairSerializer
+from ..utils import EmailThread
 
 
 class RegisterView(generics.GenericAPIView):
@@ -81,11 +82,28 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 class TestEmail(generics.GenericAPIView):
     def get(self, request):
-        send_mail(
-            "Subject here",
-            "Here is the message.",
-            "from@example.com",
-            ["to@example.com"],
-            fail_silently=False,
-        )
-        return Response("Email sent", status=status.HTTP_200_OK)
+        context = {
+            'name': 'Test Name',
+            'email': 'test@example.com'
+        }
+
+        try:
+            # Using mail_templated.send_mail with proper template
+            send_mail(
+                'email/welcome.tpl',  # Template path
+                context,
+                'from@example.com',
+                ['to@example.com'],
+                fail_silently=False
+            )
+
+            return Response({
+                'status': 'success',
+                'message': 'Email sent successfully'
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': str(e)
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
