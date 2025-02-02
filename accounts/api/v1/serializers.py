@@ -1,8 +1,12 @@
+from typing import Dict, Any
+
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 User = get_user_model()
 
@@ -58,13 +62,14 @@ class ChangePasswordSerializer(serializers.Serializer):
             raise serializers.ValidationError({'new_password': list(e.messages)})
         return data
 
-class AuthTokenSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
-    def validate(self, data):
-        user = authenticate(username=data['username'], password=data['password'])
-        if user and user.is_verified:
-            return {'user': user}
-        msg = _('User account is disabled.')
-        raise serializers.ValidationError(msg, code='authorization')
+    def validate(self, attrs, **kwargs) -> Dict[str, Any]:
+        data = super().validate(attrs)
+        data['username'] = self.user.username
+        data['email'] = self.user.email
+        data['is_verified'] = self.user.is_verified
+        if not self.user.is_verified:
+            msg = _('User account is disabled.')
+            raise serializers.ValidationError(msg, code='authorization')
+        return data

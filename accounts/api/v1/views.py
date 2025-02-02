@@ -6,7 +6,9 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from django.contrib.auth import logout
-from accounts.api.v1.serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
+from accounts.api.v1.serializers import RegisterSerializer, UserSerializer, ChangePasswordSerializer, CustomTokenObtainPairSerializer
 
 
 class RegisterView(generics.GenericAPIView):
@@ -70,3 +72,7 @@ class ChangePasswordView(generics.UpdateAPIView):
             return Response({"message": "Password updated successfully."}, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
