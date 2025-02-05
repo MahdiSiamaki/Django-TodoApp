@@ -52,13 +52,21 @@ python manage.py migrate
 python manage.py createsuperuser
 ```
 
-6. Run the development server:
+6. Populate the database with demo data:
+
+```bash
+python manage.py insert_data
+```
+
+This will create a demo user with the username 'demo_user' and password 'demo1234', along with five random tasks.
+
+7. Run the development server:
 
 ```bash
 python manage.py runserver
 ```
 
-7. Open your web browser and navigate to `http://127.0.0.1:8000` to access the application.
+8. Open your web browser and navigate to `http://127.0.0.1:8000` to access the application.
 
 ## Docker Setup Instructions
 
