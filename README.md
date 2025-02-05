@@ -420,6 +420,15 @@ To run the tests, use the following command:
 python manage.py test
 ```
 
+## Running Tests with PyTest
+
+To run the tests using PyTest, use the following command:
+
+```bash
+pytest
+```
+
+
 ## Deployment
 
 To deploy the application to a production environment, follow these steps:
