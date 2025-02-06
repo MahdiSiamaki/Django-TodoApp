@@ -1,6 +1,15 @@
 version: '3.9'
 
 services:
+
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
@@ -13,6 +22,29 @@ services:
 #       - DJANGO_SETTINGS_MODULE=core.settings
         - DEBUG=True
         - SECRET_KEY=secret_key
+    depends_on:
+      - redis
+  
+  worker:
+    build: .
+    container_name: celery-worker
+    command: celery -A core worker -l INFO
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+
+  beat:
+    build: .
+    container_name: celery-beat
+    command: celery -A core beat -l INFO
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+
   smtp4dev:
     image: rnwood/smtp4dev:v3
     restart: always
