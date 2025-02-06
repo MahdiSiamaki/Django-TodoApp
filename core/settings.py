@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'djoser',
     'django_celery_results',
+    'django_celery_beat',
 
 ]
 
@@ -189,3 +190,12 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 CELERY_BROKER_URL = "redis://redis:6379/1"
 CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_BEAT_SCHEDULE = {
+    'clear-completed-tasks-every-10-minutes': {
+        'task': 'todo.tasks.clear_completed_tasks',
+        'schedule': 600.0,
+    },
+}
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
