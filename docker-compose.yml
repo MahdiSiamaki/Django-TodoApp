@@ -35,6 +35,16 @@ services:
       - redis
       - web
 
+  beat:
+    build: .
+    container_name: celery-beat
+    command: celery -A core beat -l INFO
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+      - web
+
   smtp4dev:
     image: rnwood/smtp4dev:v3
     restart: always

@@ -11,3 +11,10 @@ app = Celery('core')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+
+app.conf.beat_schedule = {
+    'clear-completed-tasks-every-10-minutes': {
+        'task': 'todo.tasks.clear_completed_tasks',
+        'schedule': 600.0,
+    },
+}
