@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Weather Information</h1>
+        {% if weather_data %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ weather_data.name }}</h5>
+                    <p class="card-text">Temperature: {{ weather_data.main.temp }}°C</p>
+                    <p class="card-text">Weather: {{ weather_data.weather.0.description }}</p>
+                    <p class="card-text">Humidity: {{ weather_data.main.humidity }}%</p>
+                    <p class="card-text">Wind Speed: {{ weather_data.wind.speed }} m/s</p>
+                </div>
+            </div>
+        {% else %}
+            <p>No weather data available.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

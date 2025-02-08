@@ -9,9 +9,10 @@ from django.views.generic import (
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.core.cache import cache
+import requests
 
 from todo.models import Todo
-
 
 class TodoListView(LoginRequiredMixin, ListView):
     """
@@ -30,7 +31,7 @@ class TodoListView(LoginRequiredMixin, ListView):
         query = self.request.GET.get("q")
         if query:
             queryset = queryset.filter(
-                Q(title__icontains=query) | Q(description__icontains=query)
+                Q(title__icontains=query) | Q(description__icontains(query))
             )
         return queryset
 
@@ -81,3 +82,16 @@ class TodoDeleteView(LoginRequiredMixin, DeleteView):
     model = Todo
     template_name = "todo/todo_confirm_delete.html"
     success_url = reverse_lazy("todo:todo_list")
+
+
+def weather_view(request):
+    weather_data = cache.get('weather_data')
+    if not weather_data:
+        api_key = '336189027c5cce08ff7d69e6ab98a34c'
+        city = 'Tehran'
+        url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}'
+        response = requests.get(url)
+        weather_data = response.json()
+        cache.set('weather_data', weather_data, timeout=1200)  # Cache for 20 minutes
+
+    return render(request, 'todo/weather.html', {'weather_data': weather_data})

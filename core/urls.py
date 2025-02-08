@@ -11,7 +11,6 @@ Class-based views
     2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
 from django.contrib import admin
@@ -21,6 +20,7 @@ from django.urls import re_path
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from todo.views import weather_view
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -52,4 +52,5 @@ urlpatterns = [
         name="schema-swagger-ui",
     ),
     path("redoc/", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"),
+    path("weather/", weather_view, name="weather_view"),
 ]

@@ -196,6 +196,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'todo.tasks.clear_completed_tasks',
         'schedule': 600.0,
     },
+    'fetch-weather-data-every-20-minutes': {
+        'task': 'todo.tasks.fetch_weather_data',
+        'schedule': 1200.0,
+    },
 }
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
