@@ -17,5 +17,11 @@ COPY . /app
 # Expose the port
 EXPOSE 8000
 
+# Create directories for static files
+RUN mkdir -p /app/staticfiles /app/media
+
+# Make sure the static directory exists and has proper permissions
+RUN chmod -R 755 /app/staticfiles
+
 # Default command
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
